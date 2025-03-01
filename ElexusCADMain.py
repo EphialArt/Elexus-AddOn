@@ -7,11 +7,9 @@ from kittycad.models import (
     FileExportFormat,
     TextToCadCreateBody,
 )
-import FreeCAD
-import FreeCADGui
 from PySide2 import QtWidgets, QtCore
 import os
-import ImportGui
+import FreeCAD  
 from freecad import module_io
 
 
@@ -87,12 +85,25 @@ class ElexusCADInterface(QtWidgets.QDialog):
         output_path = os.path.join(os.path.expanduser("~"), "Desktop", "text-to-cad-output.step")
 
         # Save the file as binary
-        with open(output_path, "wb") as output_file:
-            output_file.write(result.outputs["source.step"])  # Extract the file content
+        try:
+            with open(output_path, "wb") as output_file:
+                output_file.write(result.outputs["source.step"])  # Extract the file content
 
-        self.statusLabel.setText(f"Saved output to {output_path}")
-        module_io.OpenInsertObject("ImportGui", output_path, "insert", FreeCAD.ActiveDocument.Name)
+            self.statusLabel.setText(f"Saved output to {output_path}")
+
+            # Check if the file exists before importing
+            if os.path.exists(output_path):
+                import ImportGui
+                from freecad import module_io
+                module_io.OpenInsertObject("ImportGui", output_path, "insert", FreeCAD.ActiveDocument.Name)
+                self.close()  # Close the dialog after importing the file
+            else:
+                self.statusLabel.setText("Error: File was not saved correctly.")
+        except Exception as e:
+            self.statusLabel.setText(f"Error saving file: {e}")
+
 
 # Run the interface in FreeCAD
-dialog = ElexusCADInterface()
-dialog.show()
+if __name__ == "__main__":
+    dialog = ElexusCADInterface()
+    dialog.exec_()

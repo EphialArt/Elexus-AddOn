@@ -1,7 +1,14 @@
 import FreeCAD
 import FreeCADGui
 import os
-from ElexusCADMain import ElexusCADInterface
+import sys
+# Add the directory containing ElexusCADMain to the Python path
+module_dir = os.path.join(os.getenv('APPDATA'), "FreeCAD", "Mod", "Elexus")
+if module_dir not in sys.path:
+    sys.path.append(module_dir)
+
+# Debug message to confirm the module directory
+FreeCAD.Console.PrintMessage(f"Module directory: {module_dir}\n")
 
 # Define ElexusCommand FIRST
 class ElexusCommand:
@@ -22,6 +29,7 @@ class ElexusCommand:
     def Activated(self):
         """Function that runs when the button is clicked"""
         FreeCAD.Console.PrintMessage("ElexusCommand Activated\n")
+        from ElexusCADMain import ElexusCADInterface
         dialog = ElexusCADInterface()
         dialog.exec_()
 
