@@ -1,0 +1,14 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"addin",
+	"id":	"4fb64a73-4d50-4283-b5b9-4a31a1da55ac",
+	"author":	"Inioluwa",
+	"description":	{
+		"":	"A tool aimed at intersecting AI with CAD"
+	},
+	"version":	"0.1.0",
+	"runOnStartup":	true,
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true,
+	"iconFilename":	"AddInIcon.svg"
+}
