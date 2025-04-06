@@ -1,6 +1,17 @@
 import adsk.core, adsk.fusion, adsk.cam, traceback
 import os
 import time
+import subprocess
+import sys
+
+def install_kittycad(required_version):
+    try:
+        import kittycad
+    except ImportError:
+        print(f"Installing kittycad=={required_version}...")
+        subprocess.check_call([sys.executable, "-m", "pip", "install", f"kittycad=={required_version}"])
+
+install_kittycad("0.7.6")
 from kittycad.api.ml import create_text_to_cad, get_text_to_cad_model_for_user
 from kittycad.client import ClientFromEnv
 from kittycad.models import (
@@ -25,7 +36,6 @@ def create_command():
         cmd_def.deleteMe()  # Delete old definition if it exists
 
     if not cmd_def:
-        # Path to the icon image (must be a PNG or SVG)
         icon_path = os.path.join(os.path.dirname(__file__), "Resources", "TTC")
         
         cmd_def = command_definitions.addButtonDefinition(
@@ -82,7 +92,6 @@ def create_command():
                                 
                                 ui.messageBox(f'Saved output to {output_path}')
                                 
-                                # Import into Fusion 360 using ImportManager
                                 import_manager = app.importManager
                                 step_options = import_manager.createSTEPImportOptions(output_path)
                                 import_manager.importToNewDocument(step_options)
@@ -119,7 +128,6 @@ def create_command():
 def run(context):
     try:
         cmd_def = create_command()
-        ui.messageBox('ElexusCAD Plugin Loaded!')
     except:
         ui.messageBox('Failed to load plugin:\n{}'.format(traceback.format_exc()))
         
@@ -130,8 +138,8 @@ def stop(context):
         
         panel = workspace.toolbarPanels.itemById(panel_id)
         if panel:
-            panel.deleteMe()  # Remove the panel on unload
+            panel.deleteMe()
         
-        ui.messageBox('ElexusCAD Plugin Unloaded!')
+        
     except:
         ui.messageBox('Failed to unload plugin:\n{}'.format(traceback.format_exc()))
