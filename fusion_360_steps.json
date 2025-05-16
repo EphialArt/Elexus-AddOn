@@ -1,0 +1,1055 @@
+{
+    "metadata": {
+        "parent_project": "Testing",
+        "component_name": "Untitled",
+        "component_index": 0
+    },
+    "timeline": [
+        {
+            "entity": "sketch_0_581e5650-2298-46ca-9c3d-1591fea45e30",
+            "index": 0
+        },
+        {
+            "entity": "extrude_1864f5cc-c5cb-4c41-a387-c9fe2858681c",
+            "index": 1
+        },
+        {
+            "entity": "sketch_1_edb7a5e6-3e6b-4165-8b0d-0a223cd5ae70",
+            "index": 2
+        },
+        {
+            "entity": "extrude_05f86171-eeef-4e59-8410-700ce1da0aed",
+            "index": 3
+        },
+        {
+            "entity": "sketch_2_94724843-7302-4073-ad39-ae62d31ccde8",
+            "index": 4
+        },
+        {
+            "entity": "extrude_ffc3ca81-a717-4f80-b821-2e970ab2a0b4",
+            "index": 5
+        },
+        {
+            "entity": "sketch_3_055d7f31-84da-4ac9-b0e5-649c611a12a6",
+            "index": 6
+        },
+        {
+            "entity": "extrude_9484d87c-cae0-4825-b108-41341973101b",
+            "index": 7
+        },
+        {
+            "entity": "sketch_4_69a4afd2-71b0-4679-abb2-5cb8bfa34e09",
+            "index": 8
+        },
+        {
+            "entity": "extrude_0cf2eb84-ef21-4560-8774-0ec1d9a02794",
+            "index": 9
+        },
+        {
+            "entity": "sketch_5_f59cdb7f-e5e3-4c25-b106-23e1f97c2945",
+            "index": 10
+        },
+        {
+            "entity": "extrude_b07ea671-5925-4a37-9f9f-e5c31a38bdc8",
+            "index": 11
+        },
+        {
+            "entity": "sketch_6_c19b4b16-4fbc-4db0-ad09-c9deefa22701",
+            "index": 12
+        },
+        {
+            "entity": "extrude_231bc463-9729-4e90-843a-b8f8b16b031a",
+            "index": 13
+        },
+        {
+            "entity": "sketch_7_26c3210b-347f-455b-b3b7-0d154248c7a7",
+            "index": 14
+        },
+        {
+            "entity": "extrude_5456eb61-02dc-478c-8a56-f5bc3c788654",
+            "index": 15
+        },
+        {
+            "entity": "sketch_8_609cde73-fff4-47f4-a461-62ac59f187eb",
+            "index": 16
+        },
+        {
+            "entity": "extrude_cbaa307f-6a61-405a-9547-2013724f4e7e",
+            "index": 17
+        },
+        {
+            "entity": "sketch_9_d44f5d14-4d65-4269-89ec-ab7a07fecd03",
+            "index": 18
+        },
+        {
+            "entity": "extrude_cc201dd2-41df-48a4-8af2-f28a49ee9305",
+            "index": 19
+        },
+        {
+            "entity": "sketch_10_8b378644-062e-4822-9c67-44fff60dfee1",
+            "index": 20
+        },
+        {
+            "entity": "extrude_fa11c1bd-99eb-4812-a8b4-69206623ae89",
+            "index": 21
+        },
+        {
+            "entity": "sketch_11_a2505910-8728-4fd7-b97f-e15a9fe216a8",
+            "index": 22
+        },
+        {
+            "entity": "extrude_dd83e373-5dee-4f66-b53e-fae74f396c99",
+            "index": 23
+        }
+    ],
+    "entities": {
+        "sketch_0_581e5650-2298-46ca-9c3d-1591fea45e30": {
+            "name": "sketch_0_581e5650-2298-46ca-9c3d-1591fea45e30",
+            "type": "Sketch",
+            "plane": "XY",
+            "points": [
+                [
+                    -0.5,
+                    -0.5,
+                    -0.5
+                ],
+                [
+                    0.5,
+                    -0.5,
+                    -0.5
+                ],
+                [
+                    0.5,
+                    0.5,
+                    -0.5
+                ]
+            ],
+            "curves": {
+                "line_0": {
+                    "start": [
+                        -0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_1": {
+                    "start": [
+                        0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_2": {
+                    "start": [
+                        0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                }
+            },
+            "constraints": {},
+            "dimensions": {}
+        },
+        "extrude_1864f5cc-c5cb-4c41-a387-c9fe2858681c": {
+            "name": "extrude_1864f5cc-c5cb-4c41-a387-c9fe2858681c",
+            "type": "ExtrudeFeature",
+            "profile": "sketch_0_581e5650-2298-46ca-9c3d-1591fea45e30",
+            "extent_one": {
+                "distance": {
+                    "value": 10
+                }
+            },
+            "taperAngle": {
+                "value": 0
+            },
+            "operationType": "NewBody"
+        },
+        "sketch_1_edb7a5e6-3e6b-4165-8b0d-0a223cd5ae70": {
+            "name": "sketch_1_edb7a5e6-3e6b-4165-8b0d-0a223cd5ae70",
+            "type": "Sketch",
+            "plane": "XY",
+            "points": [
+                [
+                    -0.5,
+                    -0.5,
+                    0.5
+                ],
+                [
+                    0.5,
+                    -0.5,
+                    0.5
+                ],
+                [
+                    0.5,
+                    0.5,
+                    0.5
+                ]
+            ],
+            "curves": {
+                "line_0": {
+                    "start": [
+                        -0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "end": [
+                        0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_1": {
+                    "start": [
+                        0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "end": [
+                        0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_2": {
+                    "start": [
+                        0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                }
+            },
+            "constraints": {},
+            "dimensions": {}
+        },
+        "extrude_05f86171-eeef-4e59-8410-700ce1da0aed": {
+            "name": "extrude_05f86171-eeef-4e59-8410-700ce1da0aed",
+            "type": "ExtrudeFeature",
+            "profile": "sketch_1_edb7a5e6-3e6b-4165-8b0d-0a223cd5ae70",
+            "extent_one": {
+                "distance": {
+                    "value": 10
+                }
+            },
+            "taperAngle": {
+                "value": 0
+            },
+            "operationType": "NewBody"
+        },
+        "sketch_2_94724843-7302-4073-ad39-ae62d31ccde8": {
+            "name": "sketch_2_94724843-7302-4073-ad39-ae62d31ccde8",
+            "type": "Sketch",
+            "plane": "XY",
+            "points": [
+                [
+                    -0.5,
+                    -0.5,
+                    -0.5
+                ],
+                [
+                    -0.5,
+                    -0.5,
+                    0.5
+                ],
+                [
+                    0.5,
+                    -0.5,
+                    0.5
+                ]
+            ],
+            "curves": {
+                "line_0": {
+                    "start": [
+                        -0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_1": {
+                    "start": [
+                        -0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "end": [
+                        0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_2": {
+                    "start": [
+                        0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                }
+            },
+            "constraints": {},
+            "dimensions": {}
+        },
+        "extrude_ffc3ca81-a717-4f80-b821-2e970ab2a0b4": {
+            "name": "extrude_ffc3ca81-a717-4f80-b821-2e970ab2a0b4",
+            "type": "ExtrudeFeature",
+            "profile": "sketch_2_94724843-7302-4073-ad39-ae62d31ccde8",
+            "extent_one": {
+                "distance": {
+                    "value": 10
+                }
+            },
+            "taperAngle": {
+                "value": 0
+            },
+            "operationType": "NewBody"
+        },
+        "sketch_3_055d7f31-84da-4ac9-b0e5-649c611a12a6": {
+            "name": "sketch_3_055d7f31-84da-4ac9-b0e5-649c611a12a6",
+            "type": "Sketch",
+            "plane": "XY",
+            "points": [
+                [
+                    0.5,
+                    -0.5,
+                    -0.5
+                ],
+                [
+                    0.5,
+                    -0.5,
+                    0.5
+                ],
+                [
+                    0.5,
+                    0.5,
+                    0.5
+                ]
+            ],
+            "curves": {
+                "line_0": {
+                    "start": [
+                        0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_1": {
+                    "start": [
+                        0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "end": [
+                        0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_2": {
+                    "start": [
+                        0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "end": [
+                        0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                }
+            },
+            "constraints": {},
+            "dimensions": {}
+        },
+        "extrude_9484d87c-cae0-4825-b108-41341973101b": {
+            "name": "extrude_9484d87c-cae0-4825-b108-41341973101b",
+            "type": "ExtrudeFeature",
+            "profile": "sketch_3_055d7f31-84da-4ac9-b0e5-649c611a12a6",
+            "extent_one": {
+                "distance": {
+                    "value": 10
+                }
+            },
+            "taperAngle": {
+                "value": 0
+            },
+            "operationType": "NewBody"
+        },
+        "sketch_4_69a4afd2-71b0-4679-abb2-5cb8bfa34e09": {
+            "name": "sketch_4_69a4afd2-71b0-4679-abb2-5cb8bfa34e09",
+            "type": "Sketch",
+            "plane": "XY",
+            "points": [
+                [
+                    0.5,
+                    0.5,
+                    -0.5
+                ],
+                [
+                    0.5,
+                    0.5,
+                    0.5
+                ],
+                [
+                    -0.5,
+                    0.5,
+                    0.5
+                ]
+            ],
+            "curves": {
+                "line_0": {
+                    "start": [
+                        0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_1": {
+                    "start": [
+                        0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_2": {
+                    "start": [
+                        -0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "end": [
+                        0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                }
+            },
+            "constraints": {},
+            "dimensions": {}
+        },
+        "extrude_0cf2eb84-ef21-4560-8774-0ec1d9a02794": {
+            "name": "extrude_0cf2eb84-ef21-4560-8774-0ec1d9a02794",
+            "type": "ExtrudeFeature",
+            "profile": "sketch_4_69a4afd2-71b0-4679-abb2-5cb8bfa34e09",
+            "extent_one": {
+                "distance": {
+                    "value": 10
+                }
+            },
+            "taperAngle": {
+                "value": 0
+            },
+            "operationType": "NewBody"
+        },
+        "sketch_5_f59cdb7f-e5e3-4c25-b106-23e1f97c2945": {
+            "name": "sketch_5_f59cdb7f-e5e3-4c25-b106-23e1f97c2945",
+            "type": "Sketch",
+            "plane": "XY",
+            "points": [
+                [
+                    -0.5,
+                    0.5,
+                    -0.5
+                ],
+                [
+                    -0.5,
+                    0.5,
+                    0.5
+                ],
+                [
+                    -0.5,
+                    -0.5,
+                    0.5
+                ]
+            ],
+            "curves": {
+                "line_0": {
+                    "start": [
+                        -0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_1": {
+                    "start": [
+                        -0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_2": {
+                    "start": [
+                        -0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                }
+            },
+            "constraints": {},
+            "dimensions": {}
+        },
+        "extrude_b07ea671-5925-4a37-9f9f-e5c31a38bdc8": {
+            "name": "extrude_b07ea671-5925-4a37-9f9f-e5c31a38bdc8",
+            "type": "ExtrudeFeature",
+            "profile": "sketch_5_f59cdb7f-e5e3-4c25-b106-23e1f97c2945",
+            "extent_one": {
+                "distance": {
+                    "value": 10
+                }
+            },
+            "taperAngle": {
+                "value": 0
+            },
+            "operationType": "NewBody"
+        },
+        "sketch_6_c19b4b16-4fbc-4db0-ad09-c9deefa22701": {
+            "name": "sketch_6_c19b4b16-4fbc-4db0-ad09-c9deefa22701",
+            "type": "Sketch",
+            "plane": "XY",
+            "points": [
+                [
+                    0.5,
+                    0.5,
+                    -0.5
+                ],
+                [
+                    -0.5,
+                    0.5,
+                    -0.5
+                ],
+                [
+                    -0.5,
+                    -0.5,
+                    -0.5
+                ]
+            ],
+            "curves": {
+                "line_0": {
+                    "start": [
+                        0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_1": {
+                    "start": [
+                        -0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_2": {
+                    "start": [
+                        -0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                }
+            },
+            "constraints": {},
+            "dimensions": {}
+        },
+        "extrude_231bc463-9729-4e90-843a-b8f8b16b031a": {
+            "name": "extrude_231bc463-9729-4e90-843a-b8f8b16b031a",
+            "type": "ExtrudeFeature",
+            "profile": "sketch_6_c19b4b16-4fbc-4db0-ad09-c9deefa22701",
+            "extent_one": {
+                "distance": {
+                    "value": 10
+                }
+            },
+            "taperAngle": {
+                "value": 0
+            },
+            "operationType": "NewBody"
+        },
+        "sketch_7_26c3210b-347f-455b-b3b7-0d154248c7a7": {
+            "name": "sketch_7_26c3210b-347f-455b-b3b7-0d154248c7a7",
+            "type": "Sketch",
+            "plane": "XY",
+            "points": [
+                [
+                    0.5,
+                    0.5,
+                    0.5
+                ],
+                [
+                    -0.5,
+                    0.5,
+                    0.5
+                ],
+                [
+                    -0.5,
+                    -0.5,
+                    0.5
+                ]
+            ],
+            "curves": {
+                "line_0": {
+                    "start": [
+                        0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_1": {
+                    "start": [
+                        -0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_2": {
+                    "start": [
+                        -0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "end": [
+                        0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                }
+            },
+            "constraints": {},
+            "dimensions": {}
+        },
+        "extrude_5456eb61-02dc-478c-8a56-f5bc3c788654": {
+            "name": "extrude_5456eb61-02dc-478c-8a56-f5bc3c788654",
+            "type": "ExtrudeFeature",
+            "profile": "sketch_7_26c3210b-347f-455b-b3b7-0d154248c7a7",
+            "extent_one": {
+                "distance": {
+                    "value": 10
+                }
+            },
+            "taperAngle": {
+                "value": 0
+            },
+            "operationType": "NewBody"
+        },
+        "sketch_8_609cde73-fff4-47f4-a461-62ac59f187eb": {
+            "name": "sketch_8_609cde73-fff4-47f4-a461-62ac59f187eb",
+            "type": "Sketch",
+            "plane": "XY",
+            "points": [
+                [
+                    0.5,
+                    -0.5,
+                    0.5
+                ],
+                [
+                    0.5,
+                    -0.5,
+                    -0.5
+                ],
+                [
+                    -0.5,
+                    -0.5,
+                    -0.5
+                ]
+            ],
+            "curves": {
+                "line_0": {
+                    "start": [
+                        0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "end": [
+                        0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_1": {
+                    "start": [
+                        0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_2": {
+                    "start": [
+                        -0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                }
+            },
+            "constraints": {},
+            "dimensions": {}
+        },
+        "extrude_cbaa307f-6a61-405a-9547-2013724f4e7e": {
+            "name": "extrude_cbaa307f-6a61-405a-9547-2013724f4e7e",
+            "type": "ExtrudeFeature",
+            "profile": "sketch_8_609cde73-fff4-47f4-a461-62ac59f187eb",
+            "extent_one": {
+                "distance": {
+                    "value": 10
+                }
+            },
+            "taperAngle": {
+                "value": 0
+            },
+            "operationType": "NewBody"
+        },
+        "sketch_9_d44f5d14-4d65-4269-89ec-ab7a07fecd03": {
+            "name": "sketch_9_d44f5d14-4d65-4269-89ec-ab7a07fecd03",
+            "type": "Sketch",
+            "plane": "XY",
+            "points": [
+                [
+                    0.5,
+                    0.5,
+                    0.5
+                ],
+                [
+                    0.5,
+                    0.5,
+                    -0.5
+                ],
+                [
+                    0.5,
+                    -0.5,
+                    -0.5
+                ]
+            ],
+            "curves": {
+                "line_0": {
+                    "start": [
+                        0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "end": [
+                        0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_1": {
+                    "start": [
+                        0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_2": {
+                    "start": [
+                        0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                }
+            },
+            "constraints": {},
+            "dimensions": {}
+        },
+        "extrude_cc201dd2-41df-48a4-8af2-f28a49ee9305": {
+            "name": "extrude_cc201dd2-41df-48a4-8af2-f28a49ee9305",
+            "type": "ExtrudeFeature",
+            "profile": "sketch_9_d44f5d14-4d65-4269-89ec-ab7a07fecd03",
+            "extent_one": {
+                "distance": {
+                    "value": 10
+                }
+            },
+            "taperAngle": {
+                "value": 0
+            },
+            "operationType": "NewBody"
+        },
+        "sketch_10_8b378644-062e-4822-9c67-44fff60dfee1": {
+            "name": "sketch_10_8b378644-062e-4822-9c67-44fff60dfee1",
+            "type": "Sketch",
+            "plane": "XY",
+            "points": [
+                [
+                    -0.5,
+                    0.5,
+                    0.5
+                ],
+                [
+                    -0.5,
+                    0.5,
+                    -0.5
+                ],
+                [
+                    0.5,
+                    0.5,
+                    -0.5
+                ]
+            ],
+            "curves": {
+                "line_0": {
+                    "start": [
+                        -0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_1": {
+                    "start": [
+                        -0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_2": {
+                    "start": [
+                        0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                }
+            },
+            "constraints": {},
+            "dimensions": {}
+        },
+        "extrude_fa11c1bd-99eb-4812-a8b4-69206623ae89": {
+            "name": "extrude_fa11c1bd-99eb-4812-a8b4-69206623ae89",
+            "type": "ExtrudeFeature",
+            "profile": "sketch_10_8b378644-062e-4822-9c67-44fff60dfee1",
+            "extent_one": {
+                "distance": {
+                    "value": 10
+                }
+            },
+            "taperAngle": {
+                "value": 0
+            },
+            "operationType": "NewBody"
+        },
+        "sketch_11_a2505910-8728-4fd7-b97f-e15a9fe216a8": {
+            "name": "sketch_11_a2505910-8728-4fd7-b97f-e15a9fe216a8",
+            "type": "Sketch",
+            "plane": "XY",
+            "points": [
+                [
+                    -0.5,
+                    -0.5,
+                    0.5
+                ],
+                [
+                    -0.5,
+                    -0.5,
+                    -0.5
+                ],
+                [
+                    -0.5,
+                    0.5,
+                    -0.5
+                ]
+            ],
+            "curves": {
+                "line_0": {
+                    "start": [
+                        -0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_1": {
+                    "start": [
+                        -0.5,
+                        -0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "type": "SketchLine"
+                },
+                "line_2": {
+                    "start": [
+                        -0.5,
+                        0.5,
+                        -0.5
+                    ],
+                    "end": [
+                        -0.5,
+                        -0.5,
+                        0.5
+                    ],
+                    "type": "SketchLine"
+                }
+            },
+            "constraints": {},
+            "dimensions": {}
+        },
+        "extrude_dd83e373-5dee-4f66-b53e-fae74f396c99": {
+            "name": "extrude_dd83e373-5dee-4f66-b53e-fae74f396c99",
+            "type": "ExtrudeFeature",
+            "profile": "sketch_11_a2505910-8728-4fd7-b97f-e15a9fe216a8",
+            "extent_one": {
+                "distance": {
+                    "value": 10
+                }
+            },
+            "taperAngle": {
+                "value": 0
+            },
+            "operationType": "NewBody"
+        }
+    }
+}

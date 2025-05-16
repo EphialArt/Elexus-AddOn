@@ -4,7 +4,7 @@ sys.path.append("C:/Users/iceri/OneDrive/Documents/GitHub/Fusion360GalleryDatase
 from fusion360gym_client import Fusion360GymClient
 client = Fusion360GymClient("http://127.0.0.1:8080") 
 
-response = client.reconstruct("C:/Users/iceri/OneDrive/Documents/GitHub/Elexus-AddOn/DatasetCreation/ReconstructionDataset/Results/modified_design.json")
+response = client.reconstruct("C:/Users/iceri/OneDrive/Documents/GitHub/Elexus-AddOn/fusion_360_steps.json")
 
 response_data = response.json()
 print(f"Status: {response_data['status']}")

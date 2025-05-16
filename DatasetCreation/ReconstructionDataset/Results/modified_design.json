@@ -750,10 +750,6 @@
                     "curve_one": "a9f04a48-e29c-11ea-a03f-54bf646e7e1f",
                     "curve_two": "a9effc12-e29c-11ea-8425-54bf646e7e1f",
                     "type": "TangentConstraint"
-                },
-                "error_2057": {
-                    "line": "a9effc12-e29c-11ea-8425-54bf646e7e1f",
-                    "type": "HorizontalConstraint"
                 }
             },
             "profiles": {
@@ -997,7 +993,7 @@
             "extent_one": {
                 "distance": {
                     "type": "ModelParameter",
-                    "value": 7.5,
+                    "value": 1e-05,
                     "name": "d10",
                     "role": "AlongDistance"
                 },

@@ -1,15 +1,47 @@
 import adsk.core, adsk.fusion, adsk.cam, traceback
+import adsk.core, adsk.fusion, adsk.cam, traceback
 import os
 import time
 import subprocess
 import sys
 
 def install_kittycad(required_version):
+    app = adsk.core.Application.get()
+    ui = app.userInterface
+    addin_path = os.path.dirname(os.path.realpath(__file__))
+    packages_path = os.path.join(addin_path, 'site-packages')
+    os.makedirs(packages_path, exist_ok=True)
+
+    if packages_path not in sys.path:
+        sys.path.insert(0, packages_path)
+
     try:
         import kittycad
+        print(f"Successfully imported kittycad (version unknown, assuming >= {required_version} is present in site-packages).")
+        return
     except ImportError:
-        print(f"Installing kittycad=={required_version}...")
-        subprocess.check_call([sys.executable, "-m", "pip", "install", f"kittycad=={required_version}"])
+        try:
+            pip_target_command = [
+                sys.executable,
+                "-m",
+                "pip",
+                "install",
+                f"kittycad=={required_version}",
+                "--target",
+                packages_path,
+                "--no-warn-script-location"
+            ]
+            print(f"Installing kittycad=={required_version} to: {packages_path}")
+            subprocess.check_call(pip_target_command)
+            import kittycad
+            print(f"Successfully installed and imported kittycad {required_version}.")
+
+        except subprocess.CalledProcessError as e:
+            ui.messageBox(f"Error installing kittycad: {e}")
+        except Exception as e:
+            ui.messageBox(f"An unexpected error occurred during kittycad installation: {e}")
+    except Exception as e:
+        ui.messageBox(f"An unexpected error occurred during initial kittycad import check: {e}")
 
 install_kittycad("0.7.6")
 from kittycad.api.ml import create_text_to_cad, get_text_to_cad_model_for_user
