@@ -1,0 +1,17 @@
+from torch_geometric.loader import DataLoader
+from Dataset import MeshToCADDataset
+from Tokenize import tokenize_cad_steps
+
+dataset = MeshToCADDataset(mesh_dir="C:\\Users\\iceri\\Downloads\\r1.0.1\\r1.0.1\\reconstruction\\subset", cad_dir="C:\\Users\\iceri\\Downloads\\r1.0.1\\r1.0.1\\reconstruction\\subset")
+loader = DataLoader(dataset, batch_size=8, shuffle=True)
+
+for idx, batch in enumerate(loader):
+    mesh = batch  # PyG Data object
+    cad_steps = batch.cad_steps  
+
+    for i, cad_steps in enumerate(batch.cad_steps):
+        print(f"Batch {idx}, sample {i}: type(cad_steps) = {type(cad_steps)}")
+        token_seq = tokenize_cad_steps(cad_steps)
+        print(f"Tokenized CAD steps: {token_seq}\n")
+
+    token_seq = tokenize_cad_steps(cad_steps)  # Tokenized sequence
