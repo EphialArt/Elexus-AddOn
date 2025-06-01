@@ -2,7 +2,7 @@ import json
 import re
 
 BASE_TOKENS = {
-    "SKETCH": 0, "EXTRUDE": 1, "FILLET": 2, "CHAMFER": 3, "REVOLVE": 4, "SWEEP": 5, "LOFT": 6,
+    "SKETCH": 0, "EXTRUDEFEATURE": 1, "FILLET": 2, "CHAMFER": 3, "REVOLVE": 4, "SWEEP": 5, "LOFT": 6,
     "BOOLEAN": 7, "MOVE": 8, "COPY": 9, "MIRROR": 10, "PATTERN": 11, "FEATURE_SCRIPT": 12, "PROFILE": 13,
 }
 PARAM_TOKENS = {
@@ -39,7 +39,7 @@ VALUE_TOKENS = {
     "TRUE": 243, "FALSE": 244, "XZ": 245, "D1": 246, "D2": 247, "D3": 248, "BODY1": 249, "LINE3D": 250,
     "ARC3D": 251, "BREPFACE": 252, "MODELPARAMETER": 253, "SKETCHLINE": 254, "SKETCHARC": 255, "HORIZONTALCONSTRAINT": 256,
     "VERTICALCONSTRAINT": 257, "HORIZONTALDIMENSIONORIENTATION": 258, "VERTICALDIMENSIONORIENTATION": 259, "SKETCHLINEARDIMENSION": 260,
-    "JOINFEATUREOPERATION": 261, "CUTFEATUREOPERATION": 262, "EXTRUDEFEATURE": 263, "LINE": 264, "POINT": 265, 
+    "JOINFEATUREOPERATION": 261, "CUTFEATUREOPERATION": 262, "YX": 263, "LINE": 264, "POINT": 265, 
     "LINEAR DIMENSION-2": 266, "DIAMETER DIMENSION-2": 267, "LINEAR DIMENSION-3": 268, "DIAMETER DIMENSION-3": 269,
     "LINEAR DIMENSION-2": 266, "DIAMETER DIMENSION-2": 267, "LINEAR DIMENSION-3": 268, "DIAMETER DIMENSION-3": 269,
     "SKETCHARC": 270, "SKETCHCIRCLE": 271, "SKETCHCONICCURVE": 272, "SKETCHELLIPSE": 273,
@@ -58,38 +58,56 @@ VALUE_TOKENS = {
 
 STRUCTURE_TOKENS = {"{": 400, "}": 401, "[": 402, "]": 403, ":": 404, ",": 405}
 
+all_tokens = set(BASE_TOKENS.values()) | set(PARAM_TOKENS.values()) | set(VALUE_TOKENS.values()) | set(STRUCTURE_TOKENS.values())
+VOCAB_SIZE = len(all_tokens)
+
 UUID_PATTERN = re.compile(r"^[a-f0-9\-]{36}$", re.IGNORECASE)
+
+def float_to_token(val, precision=2, min_val=-10000, max_val=10000):
+    val = max(min(val, max_val), min_val)
+    return int(round(val * (10 ** precision)))
+
+def int_to_token(val, min_val=-10000, max_val=10000):
+    return max(min(int(val), max_val), min_val)
 
 def tokenize_value(val, key=None):
     if isinstance(val, float):
-        return [VALUE_TOKENS["<FLOAT>"], val]
-    elif isinstance(val, bool):  # <-- CHECK FOR BOOL BEFORE INT!
-        return [VALUE_TOKENS["<BOOLEAN>"], val]
+        return [VALUE_TOKENS["<FLOAT>"], float_to_token(val)]
+    elif isinstance(val, bool):
+        return [VALUE_TOKENS["<BOOLEAN>"], int(val)]
     elif isinstance(val, int):
-        return [VALUE_TOKENS["<INTEGER>"], val]
+        return [VALUE_TOKENS["<INTEGER>"], int_to_token(val)]
     elif isinstance(val, str):
-        if UUID_PATTERN.match(val):
-            return [VALUE_TOKENS["<UUID>"], val]
-        return [VALUE_TOKENS.get(val.upper(), PARAM_TOKENS.get(val.upper(), val))]
+        if val.upper() in VALUE_TOKENS:
+            return [VALUE_TOKENS[val.upper()]]
+        elif val.upper() in PARAM_TOKENS:
+            return [PARAM_TOKENS[val.upper()]]
+        elif UUID_PATTERN.match(val):
+            return [VALUE_TOKENS["<UUID>"]]
+        else:
+            return [VALUE_TOKENS["<NAME>"]]
     elif isinstance(val, list):
         tokens = [STRUCTURE_TOKENS["["]]
-        for i, item in enumerate(val):
-            tokens += tokenize_value(item)
-            if i < len(val) - 1:
-                tokens.append(STRUCTURE_TOKENS[","])
+        for item in val:
+            tokens.extend(tokenize_value(item))
+            tokens.append(STRUCTURE_TOKENS[","])
+        if len(tokens) > 1:
+            tokens.pop() 
         tokens.append(STRUCTURE_TOKENS["]"])
         return tokens
     elif isinstance(val, dict):
         tokens = [STRUCTURE_TOKENS["{"]]
-        for i, (k, v) in enumerate(val.items()):
-            tokens.append(PARAM_TOKENS.get(k.upper(), k))
+        for k, v in val.items():
+            tokens.extend(tokenize_value(k))
             tokens.append(STRUCTURE_TOKENS[":"])
-            tokens += tokenize_value(v, key=k)
-            if i < len(val) - 1:
-                tokens.append(STRUCTURE_TOKENS[","])
+            tokens.extend(tokenize_value(v))
+            tokens.append(STRUCTURE_TOKENS[","])
+        if len(tokens) > 1:
+            tokens.pop()  
         tokens.append(STRUCTURE_TOKENS["}"])
         return tokens
-    return [val]
+    else:
+        return []
 
 def tokenize_cad_steps(cad_json):
     if isinstance(cad_json, str):
@@ -138,4 +156,4 @@ if __name__ == "__main__":
         }
     }
     tokenized_steps = tokenize_cad_steps(cad_json)
-    print(tokenized_steps)
+    print(VOCAB_SIZE)
