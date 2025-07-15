@@ -27,8 +27,6 @@ def load_mesh_to_pyg(file_path):
 
         edge_index = torch.tensor(list(edge_set), dtype=torch.long).t().contiguous()
 
-        print(f"Loaded mesh with {pos.shape[0]} vertices from {file_path}")
-
         data = Data(x=x, edge_index=edge_index, pos=pos)
         return data
 

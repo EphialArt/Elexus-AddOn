@@ -1,29 +1,61 @@
 from torch.nn.utils.rnn import pad_sequence
 from torch_geometric.data import Batch
-import torch
 
-MAX_SEQ_LEN = 47000
-EOS_TOKEN = 501  
+MAX_TOTAL_TOKENS = 70000
 
 def collate_fn(batch):
-    meshes = [item for item in batch if item is not None and len(item.tokens) <= MAX_SEQ_LEN]
-    if len(meshes) == 0:
+    broken_files = set()
+    try:
+        with open("Broken.txt", "r") as f:
+            for line in f:
+                if line.startswith("Files:"):
+                    files = eval(line.split("Files:")[1].strip())
+                    broken_files.update(files)
+    except FileNotFoundError:
+        pass
+
+    batch = [item for item in batch if getattr(item, "mesh_file", None) not in broken_files]
+
+    if len(batch) == 0:
         return None
 
-    tokens = [item.tokens.tolist() + [EOS_TOKEN] for item in meshes]
-    values = [item.value_tensor.tolist() + [0.0] for item in meshes]
+    selected_meshes = []
+    total_tokens = 0
 
-    print("values types:", [type(v) for v in values])
-    tokens_padded = pad_sequence([torch.tensor(t) for t in tokens], batch_first=True, padding_value=500)
-    values_padded = pad_sequence([torch.tensor(v) for v in values], batch_first=True, padding_value=-9999999999.0)
+    for item in batch:
+        tok_len = len(item.tokens)
 
-    for mesh in meshes:
-        if hasattr(mesh, 'tokens'):
-            del mesh.tokens
-        if hasattr(mesh, 'values'):
-            del mesh.values
+        if tok_len > MAX_TOTAL_TOKENS:
+            continue
 
-    mesh_batch = Batch.from_data_list(meshes)
+        if total_tokens + tok_len > MAX_TOTAL_TOKENS:
+            break
+
+        selected_meshes.append(item)
+        total_tokens += tok_len
+
+    if len(selected_meshes) == 0:
+        return None  
+
+    tokens = [item.tokens for item in selected_meshes]
+    floats = [item.float_tensor for item in selected_meshes]
+    ints = [item.int_tensor for item in selected_meshes]
+    uuids = [item.uuid_tensor for item in selected_meshes]
+
+    tokens_padded = pad_sequence(tokens, batch_first=True, padding_value=500)
+    floats_padded = pad_sequence(floats, batch_first=True, padding_value=-1e6)
+    ints_padded = pad_sequence(ints, batch_first=True, padding_value=-1)
+    uuids_padded = pad_sequence(uuids, batch_first=True, padding_value=-1)
+
+    for mesh in selected_meshes:
+        for attr in ['tokens', 'values', 'value_tensor', 'uuid_ids']:
+            if hasattr(mesh, attr):
+                delattr(mesh, attr)
+
+    mesh_batch = Batch.from_data_list(selected_meshes)
+    mesh_batch.floats_padded = floats_padded
     mesh_batch.tokens_padded = tokens_padded
-    mesh_batch.values_padded = values_padded
+    mesh_batch.uuids_padded = uuids_padded
+    mesh_batch.ints_padded = ints_padded
+
     return mesh_batch

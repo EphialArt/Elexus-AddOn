@@ -51,9 +51,9 @@ VALUE_TOKENS = {
     "VERTICALCONSTRAINT": 294, "VERTICALPOINTSCONSTRAINT": 295, "SKETCHANGULARDIMENSION": 296, "SKETCHCONCENTRICCIRCLEDIMENSION": 297,
     "SKETCHDIAMETERDIMENSION": 298, "SKETCHELLIPSEMAJORRADIUSDIMENSION": 299, "SKETCHELLIPSEMINORRADIUSDIMENSION": 300, "SKETCHLINEARDIMENSION": 301,
     "SKETCHOFFSETCURVESDIMENSION": 302, "SKETCHOFFSETDIMENSION": 303, "SKETCHRADIALDIMENSION": 304, "ANGULAR DIMENSION-2": 305,
-    "ALIGNEDDIMENSIONORIENTATION": 306, "XY": 307,
+    "ALIGNEDDIMENSIONORIENTATION": 306, "XY": 307, "TRUE" : 308, "FALSE": 309,
 
-    "<FLOAT>": 305, "<INTEGER>": 306, "<UUID>": 307, "<BOOLEAN>": 308, "<NAME>": 309,
+    "<FLOAT>": 310, "<INTEGER>": 311, "<UUID>": 312, "<BOOLEAN>": 313, "<NAME>": 314,
 }
 
 STRUCTURE_TOKENS = {"{": 400, "}": 401, "[": 402, "]": 403, ":": 404, ",": 405}
@@ -62,34 +62,36 @@ all_tokens = set(BASE_TOKENS.values()) | set(PARAM_TOKENS.values()) | set(VALUE_
 VOCAB_SIZE = len(all_tokens)
 
 UUID_PATTERN = re.compile(r"^[a-f0-9\-]{36}$", re.IGNORECASE)
+UUIDS = {}
 
-def float_to_token(val, precision=2, min_val=-10000, max_val=10000):
-    val = max(min(val, max_val), min_val)
-    return int(round(val * (10 ** precision)))
-
-def int_to_token(val, min_val=-10000, max_val=10000):
-    return max(min(int(val), max_val), min_val)
-
-def tokenize_value(val, key=None):
+def tokenize_value(val, uuid_map=None, uuid_counter=None, key=None,):
     if isinstance(val, float):
-        return [VALUE_TOKENS["<FLOAT>"], float_to_token(val)]
+        return [VALUE_TOKENS["<FLOAT>"], val]
     elif isinstance(val, bool):
-        return [VALUE_TOKENS["<BOOLEAN>"], int(val)]
+        if int(val) == 0:
+            return [VALUE_TOKENS["FALSE"]]
+        elif int(val) == 1:
+            return [VALUE_TOKENS["TRUE"]]
     elif isinstance(val, int):
-        return [VALUE_TOKENS["<INTEGER>"], int_to_token(val)]
+        return [VALUE_TOKENS["<INTEGER>"], val]
     elif isinstance(val, str):
         if val.upper() in VALUE_TOKENS:
             return [VALUE_TOKENS[val.upper()]]
         elif val.upper() in PARAM_TOKENS:
             return [PARAM_TOKENS[val.upper()]]
         elif UUID_PATTERN.match(val):
-            return [VALUE_TOKENS["<UUID>"]]
+            if val not in uuid_map:
+                placeholder = f"<UUID_{uuid_counter[0]}>"
+                uuid_map[val] = placeholder
+                VALUE_TOKENS[placeholder] = uuid_counter[0]
+                uuid_counter[0] += 1
+            return [VALUE_TOKENS["<UUID>"], VALUE_TOKENS[uuid_map[val]]]
         else:
             return [VALUE_TOKENS["<NAME>"]]
     elif isinstance(val, list):
         tokens = [STRUCTURE_TOKENS["["]]
         for item in val:
-            tokens.extend(tokenize_value(item))
+            tokens.extend(tokenize_value(item, uuid_map=uuid_map, uuid_counter=uuid_counter))
             tokens.append(STRUCTURE_TOKENS[","])
         if len(tokens) > 1:
             tokens.pop() 
@@ -98,9 +100,9 @@ def tokenize_value(val, key=None):
     elif isinstance(val, dict):
         tokens = [STRUCTURE_TOKENS["{"]]
         for k, v in val.items():
-            tokens.extend(tokenize_value(k))
+            tokens.extend(tokenize_value(k, uuid_map=uuid_map, uuid_counter=uuid_counter))
             tokens.append(STRUCTURE_TOKENS[":"])
-            tokens.extend(tokenize_value(v))
+            tokens.extend(tokenize_value(v, uuid_map=uuid_map, uuid_counter=uuid_counter))
             tokens.append(STRUCTURE_TOKENS[","])
         if len(tokens) > 1:
             tokens.pop()  
@@ -123,12 +125,17 @@ def tokenize_cad_steps(cad_json):
     timeline = cad.get("timeline", [])
     entities = cad.get("entities", {})
 
+    uuid_map = {}
+    uuid_counter = [0]
+
     for step in timeline:
         entity_id = step["entity"]
         entity = entities[entity_id]
         entity_type = entity.get("type", "").upper()
         tokens.append(BASE_TOKENS.get(entity_type, entity_type))
-        tokens += tokenize_value(entity)
+        tokens += tokenize_value(entity, uuid_map=uuid_map, uuid_counter=uuid_counter)
+
+    tokens.append(501)
     return tokens
 
 if __name__ == "__main__":

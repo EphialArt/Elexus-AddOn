@@ -1,10 +1,15 @@
 import torch
-from Encode_Decode import MeshToCADModel
-from MLDataLoader import load_mesh_to_pyg
-import json
-VOCAB_SIZE = 501
-MODEL_PATH = "MeshtoCAD/ML/best_model_epoch8.pt"  
-EOS_TOKEN = 501
+from Encode_Decode import MeshToCADModel, batch_vertex_features
+from MLDataset import MeshCADTokenDataset  
+
+CHECKPOINT_PATH = ""
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+VOCAB_SIZE = 502
+MAX_LENGTH = 2000
+START_TOKEN = 0      
+EOS_TOKEN = 501    
+PAD_VALUE = -1e6     
 
 model = MeshToCADModel(
     mesh_in_channels=3,
@@ -13,47 +18,78 @@ model = MeshToCADModel(
     vocab_size=VOCAB_SIZE,
     dec_hidden=256,
     dec_layers=2
-)
-checkpoint = torch.load(MODEL_PATH, map_location='cpu')
-model.load_state_dict(checkpoint['model_state_dict'])
+).to(DEVICE)
+
+checkpoint = torch.load(CHECKPOINT_PATH, map_location=DEVICE)
+model.load_state_dict(checkpoint["model_state_dict"])
 model.eval()
 
-def save_json(data, output_path):
-    with open(output_path, 'w') as file:
-        json.dump(data, file, indent=4)
+dataset = MeshCADTokenDataset("MeshtoCAD/TokenizedJSON/test")
+mesh_data = dataset[0] 
+mesh_data = mesh_data.to(DEVICE)
 
-def generate_tokens(model, mesh_data, max_len=4234, start_token=0, device='cuda'):
-    model = model.to(device)
-    model.eval()
-    mesh_data = mesh_data.to(device)
-    
-    latent = model.encoder(mesh_data)
-    print("Latent mean:", latent.mean().item())
-    
-    tokens = [start_token]
-    values = [0.0]
-    
-    for step in range(max_len):
-        input_seq = torch.tensor(tokens, dtype=torch.long, device=device).unsqueeze(0)
-        values_seq = torch.tensor(values, dtype=torch.float, device=device).unsqueeze(0)
-        
-        logits = model.decoder(input_seq, values_seq, latent)
-        probs = torch.nn.functional.softmax(logits[:, -1, :], dim=-1)
-        next_token = torch.multinomial(probs, num_samples=1).item()
-        
-        if next_token == EOS_TOKEN:
-            break
+with torch.no_grad():
+    if not hasattr(mesh_data, 'batch') or mesh_data.batch is None:
+        mesh_data.batch = torch.zeros(mesh_data.x.size(0), dtype=torch.long).to(mesh_data.x.device)
 
-        tokens.append(next_token)
-        values.append(0.0 if next_token in (305, 306) else 0.0) 
-        
-        print(f"Step {step}: token={next_token}, top-5 probs={probs[0].topk(5).values.tolist()}")
-    return tokens
+    vertex_feats, batch = model.encoder(mesh_data, return_all_vertices=True)
+    vertex_feats_batched, vertex_mask = batch_vertex_features(vertex_feats, batch)
 
+    vertex_feats_batched = vertex_feats_batched  # [1, S, latent_dim]
+    vertex_mask = vertex_mask  # [1, S]
 
-mesh_path = "MeshtoCAD/TokenizedJSON/test/20232_e5b060d9_0002.obj"
-mesh_data = load_mesh_to_pyg(mesh_path)
-predicted_tokens = generate_tokens(model, mesh_data)
+tokens = [START_TOKEN]
+floats = [PAD_VALUE]  
+ints = [-1]
+uuids = [-1]
 
-save_json(predicted_tokens, "MeshtoCAD/ML/output/predicted_tokens.json")
-print("Predicted CAD token sequence:", predicted_tokens)
+for step in range(MAX_LENGTH):
+    token_tensor = torch.tensor(tokens, device=DEVICE).unsqueeze(0)  # [1, T]
+    float_tensor = torch.tensor(floats, device=DEVICE).unsqueeze(0)  # [1, T]
+    int_tensor = torch.tensor(ints, device=DEVICE)     # [1, T]
+    uuid_tensor = torch.tensor(uuids, device=DEVICE)
+
+    with torch.no_grad():
+        logits, float_preds, int_preds, uuid_preds = model.decoder(
+            token_tensor, float_tensor, int_tensor, uuid_tensor,
+            vertex_feats_batched, vertex_mask
+        )
+   
+    top_k = 20
+    temperature = 1.0
+    next_token_logits = logits[0, -1]
+    probs = torch.softmax(next_token_logits / temperature, dim=-1)
+    topk_logits, topk_indices = torch.topk(next_token_logits, top_k)
+    topk_probs = torch.softmax(topk_logits / temperature, dim=-1)
+
+    next_token = topk_indices[torch.multinomial(topk_probs, 1)].item()
+
+    if next_token == 310:
+        next_float = float_preds[0, -1].item()
+        next_int = -1 
+        next_uuid = -1
+    elif next_token == 311:
+        next_float = PAD_VALUE
+        next_int = torch.argmax(int_preds[0, -1]).item()
+        next_uuid = -1
+    elif next_token == 312:
+        next_uuid = torch.argmax(uuid_preds[0, -1]).item()
+        next_float = PAD_VALUE
+        next_int = -1
+    else:
+        next_float = PAD_VALUE
+        next_int = -1
+        next_uuid = -1
+
+    tokens.append(next_token)
+    floats.append(next_float)
+    ints.append(next_int)
+    uuids.append(next_uuid)
+
+    if next_token == EOS_TOKEN:
+        break
+
+print("Generated tokens:", tokens)
+print("Generated float values:", floats)
+print("Generated int values:", ints)
+print("Generated uuid values:", uuids)
