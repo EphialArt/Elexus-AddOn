@@ -1,0 +1,84 @@
+import json
+from sketch import Sketch, Point, Curve, Constraint
+
+def parse_sketches_from_file(filepath):
+    with open(filepath, "r") as f:
+        data = json.load(f)
+
+    sketches = []
+    for entity_id, entity_info in data.get("entities", {}).items():
+        if entity_info.get("type") != "Sketch":
+            continue
+
+        # Create Sketch object
+        sketch = Sketch(
+            id=entity_id,
+            name=entity_info.get("name", "Unnamed Sketch"),
+            sketch_type=entity_info.get("type")
+        )
+
+        # Parse Points
+        for point_id, point_info in entity_info.get("points", {}).items():
+            point = Point(
+                id=point_id,
+                x=point_info.get("x", 0.0),
+                y=point_info.get("y", 0.0),
+                z=point_info.get("z", 0.0)
+            )
+            sketch.points[point_id] = point
+
+        # Parse Curves (initially with point IDs as references)
+        for curve_id, curve_info in entity_info.get("curves", {}).items():
+            curve = Curve(
+                id=curve_id,
+                curve_type=curve_info.get("type"),
+                start_point=curve_info.get("start_point"),
+                end_point=curve_info.get("end_point"),
+                center_point=curve_info.get("center_point"),
+                radius=curve_info.get("radius"),
+                **{k: v for k, v in curve_info.items() if k not in ["type", "start_point", "end_point", "center_point", "radius"]}
+            )
+            sketch.curves[curve_id] = curve
+
+        # Resolve point references in curves
+        for curve in sketch.curves.values():
+            if isinstance(curve.start_point, str):
+                curve.start_point = sketch.points.get(curve.start_point)
+            if isinstance(curve.end_point, str):
+                curve.end_point = sketch.points.get(curve.end_point)
+            if isinstance(curve.center_point, str):
+                curve.center_point = sketch.points.get(curve.center_point)
+
+        # Parse Constraints (initially with entity IDs)
+        for constraint_id, constraint_info in entity_info.get("constraints", {}).items():
+            # Copy all except "type"
+            entities = {k: v for k, v in constraint_info.items() if k != "type"}
+            constraint = Constraint(
+                id=constraint_id,
+                constraint_type=constraint_info.get("type"),
+                entities=entities
+            )
+            sketch.constraints[constraint_id] = constraint
+
+        # Resolve entity references in constraints
+        for constraint in sketch.constraints.values():
+            for key, ref_id in constraint.entities.items():
+                if ref_id in sketch.points:
+                    constraint.entities[key] = sketch.points[ref_id]
+                elif ref_id in sketch.curves:
+                    constraint.entities[key] = sketch.curves[ref_id]
+
+        sketches.append(sketch)
+
+    return sketches
+
+if __name__ == "__main__":
+    filepath = "C:\\Users\\iceri\\Downloads\\r1.0.1\\r1.0.1\\reconstruction\\20203_7e31e92a_0000.json"
+    sketches = parse_sketches_from_file(filepath)
+
+    if sketches and sketches[0].points:
+        print("Points in first sketch:", [p.id for p in sketches[0].points.values()])
+    if sketches and sketches[0].curves:
+        print("Curves in first sketch:", [c.id for c in sketches[0].curves.values()])
+    if sketches and sketches[0].constraints:
+        print("Constraints in first sketch:", [c.id for c in sketches[0].constraints.values()])
