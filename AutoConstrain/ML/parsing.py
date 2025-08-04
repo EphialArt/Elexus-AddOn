@@ -1,3 +1,4 @@
+from html import entities
 import json
 from sketch import Sketch, Point, Curve, Constraint
 
@@ -53,20 +54,40 @@ def parse_sketches_from_file(filepath):
         for constraint_id, constraint_info in entity_info.get("constraints", {}).items():
             # Copy all except "type"
             entities = {k: v for k, v in constraint_info.items() if k != "type"}
+            # Skip constraints with any None entities
+            if any(v is None for v in entities.values()):
+                continue
+
             constraint = Constraint(
                 id=constraint_id,
                 constraint_type=constraint_info.get("type"),
                 entities=entities
             )
+            if constraint.type in ["OffsetConstraint", "PolygonConstraint"]:
+                continue
             sketch.constraints[constraint_id] = constraint
 
         # Resolve entity references in constraints
         for constraint in sketch.constraints.values():
-            for key, ref_id in constraint.entities.items():
-                if ref_id in sketch.points:
-                    constraint.entities[key] = sketch.points[ref_id]
-                elif ref_id in sketch.curves:
-                    constraint.entities[key] = sketch.curves[ref_id]
+            skip = False
+            for key, ref_id in list(constraint.entities.items()):
+                if isinstance(ref_id, list):
+                    resolved_list = []
+                    for rid in ref_id:
+                        resolved = sketch.points.get(rid) or sketch.curves.get(rid)
+                        if resolved is None:
+                            skip = True
+                            break
+                        resolved_list.append(resolved)
+                    constraint.entities[key] = resolved_list
+                else:
+                    resolved = sketch.points.get(ref_id) or sketch.curves.get(ref_id)
+                    if resolved is None:
+                        skip = True
+                        break
+                    constraint.entities[key] = resolved
+            if skip:
+                continue
 
         sketches.append(sketch)
 

@@ -20,7 +20,7 @@ train_names = train_names[val_size:]
 def move_files(names, split_dir):
     os.makedirs(split_dir, exist_ok=True)
     for name in names:
-        for ext in ["_tokens.json", ".stl", ".obj"]:
+        for ext in [".json"]:
             src = os.path.join(token_dir, f"{name}{ext}")
             if os.path.exists(src):
                 shutil.move(src, os.path.join(split_dir, f"{name}{ext}"))

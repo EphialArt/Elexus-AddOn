@@ -45,15 +45,13 @@ def build_pyg_graph(sketch):
         "HorizontalPointsConstraint": 9,
         "VerticalPointsConstraint": 10,
         "MidPointConstraint": 11,
-        "OffsetConstraint": 12,
-        "ParallelConstraint": 13,
-        "PerpendicularConstraint": 14,
-        "PolygonConstraint": 15,
-        "TangentConstraint": 16,
-        "SymmetryConstraint": 17,
-        "RectangularPatternConstraint": 18,
-        "CircularPatternConstraint": 19,
-        "SmoothConstraint": 20,
+        "ParallelConstraint": 12,
+        "PerpendicularConstraint": 13,
+        "TangentConstraint": 14,
+        "SymmetryConstraint": 15,
+        "RectangularPatternConstraint": 16,
+        "CircularPatternConstraint": 17,
+        "SmoothConstraint": 18,
 
     }
 
@@ -138,7 +136,7 @@ if __name__ == "__main__":
     filepath = "C:\\Users\\iceri\\Downloads\\r1.0.1\\r1.0.1\\reconstruction\\20203_7e31e92a_0000.json"
     
     sketches = parse_sketches_from_file(filepath)
-    sketch = sketches[0]
+    sketch = sketches[3]
     
     partial_sketch, dropped_constraints = mask_constraints(sketch, drop_rate=0.4, seed=42)
 
