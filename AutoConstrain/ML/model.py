@@ -13,29 +13,24 @@ class ConstraintPredictorGNN(torch.nn.Module):
             torch.nn.Linear(hidden_channels, num_edge_classes)
         )
 
-    def forward(self, data):
+    def forward(self, data, override_candidates=None):
         x, edge_index = data.x, data.edge_index
         device = x.device
 
         x = F.relu(self.conv1(x, edge_index))
         x = F.relu(self.conv2(x, edge_index))
 
-        # Build set of existing edges (sorted tuples, undirected)
-        existing_edges = set(tuple(sorted(e)) for e in edge_index.t().tolist())
         num_nodes = x.size(0)
 
-        candidates = set(existing_edges)  # Start with all existing edges
-
-        # Add all possible self-loops (unary constraints)
-        for i in range(num_nodes):
-            candidates.add((i, i))
-
-        # Add all possible pairs (i, j) with i < j
-        for i in range(num_nodes):
-            for j in range(i+1, num_nodes):
-                candidates.add((i, j))
-
-        candidates = torch.tensor(list(candidates), dtype=torch.long, device=device)
+        if override_candidates is not None:
+            candidates = override_candidates
+        else:
+            # Default: all pairs
+            candidates = []
+            for i in range(num_nodes):
+                for j in range(i, num_nodes):
+                    candidates.append((i, j))
+            candidates = torch.tensor(candidates, dtype=torch.long, device=device)
 
         node_feats = torch.cat([x[candidates[:, 0]], x[candidates[:, 1]]], dim=1)
         edge_logits = self.edge_mlp(node_feats)

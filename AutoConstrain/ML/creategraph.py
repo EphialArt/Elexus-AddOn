@@ -5,6 +5,29 @@ import matplotlib.pyplot as plt
 import random
 import copy
 
+# Edge role encoding (can be one-hot or integer)
+role_map = {
+    "start_point": 0,
+    "end_point": 1,
+    "center_point": 2,
+    "CoincidentConstraint": 3,
+    "CollinearConstraint": 4,
+    "ConcentricConstraint": 5,
+    "VerticalConstraint": 6,
+    "HorizontalConstraint": 7,
+    "EqualConstraint": 8,
+    "HorizontalPointsConstraint": 9,
+    "VerticalPointsConstraint": 10,
+    "MidPointConstraint": 11,
+    "ParallelConstraint": 12,
+    "PerpendicularConstraint": 13,
+    "TangentConstraint": 14,
+    "SymmetryConstraint": 15,
+    "RectangularPatternConstraint": 16,
+    "CircularPatternConstraint": 17,
+    "SmoothConstraint": 18,
+}
+
 def build_pyg_graph(sketch):
     node_ids = []
     node_features = []
@@ -30,30 +53,6 @@ def build_pyg_graph(sketch):
 
     edge_index = []
     edge_attr = []
-
-    # Edge role encoding (can be one-hot or integer)
-    role_map = {
-        "start_point": 0,
-        "end_point": 1,
-        "center_point": 2,
-        "CoincidentConstraint": 3,
-        "CollinearConstraint": 4,
-        "ConcentricConstraint": 5,
-        "VerticalConstraint": 6,
-        "HorizontalConstraint": 7,
-        "EqualConstraint": 8,
-        "HorizontalPointsConstraint": 9,
-        "VerticalPointsConstraint": 10,
-        "MidPointConstraint": 11,
-        "ParallelConstraint": 12,
-        "PerpendicularConstraint": 13,
-        "TangentConstraint": 14,
-        "SymmetryConstraint": 15,
-        "RectangularPatternConstraint": 16,
-        "CircularPatternConstraint": 17,
-        "SmoothConstraint": 18,
-
-    }
 
     # Connect curves to points
     for curve in sketch.curves.values():

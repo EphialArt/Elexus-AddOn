@@ -51,24 +51,23 @@ def parse_sketches_from_file(filepath):
                 curve.center_point = sketch.points.get(curve.center_point)
 
         # Parse Constraints (initially with entity IDs)
+        raw_constraints = {}
         for constraint_id, constraint_info in entity_info.get("constraints", {}).items():
-            # Copy all except "type"
+            if constraint_info.get("type") in ["OffsetConstraint", "PolygonConstraint"]:
+                continue
             entities = {k: v for k, v in constraint_info.items() if k != "type"}
-            # Skip constraints with any None entities
             if any(v is None for v in entities.values()):
                 continue
-
             constraint = Constraint(
                 id=constraint_id,
                 constraint_type=constraint_info.get("type"),
                 entities=entities
             )
-            if constraint.type in ["OffsetConstraint", "PolygonConstraint"]:
-                continue
-            sketch.constraints[constraint_id] = constraint
+            raw_constraints[constraint_id] = constraint
 
         # Resolve entity references in constraints
-        for constraint in sketch.constraints.values():
+        resolved_constraints = {}
+        for cid, constraint in raw_constraints.items():
             skip = False
             for key, ref_id in list(constraint.entities.items()):
                 if isinstance(ref_id, list):
@@ -86,8 +85,13 @@ def parse_sketches_from_file(filepath):
                         skip = True
                         break
                     constraint.entities[key] = resolved
-            if skip:
+            if not skip:
+                resolved_constraints[cid] = constraint
+            else:
+                # print(f"[!] Skipped constraint {cid} in {filepath} due to unresolved reference(s)")
                 continue
+
+        sketch.constraints = resolved_constraints
 
         sketches.append(sketch)
 
