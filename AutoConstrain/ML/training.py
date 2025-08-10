@@ -8,39 +8,34 @@ import os
 from creategraph import visualize_graph, build_pyg_graph
 
 CHECKPOINT_DIR = "AutoConstrain/ML/checkpoints"
+epoch_no = 1
 
-def collate_fn(batch):
-    partials, fulls = zip(*batch)
-    batch_partial = Batch.from_data_list(partials)
-    batch_full = Batch.from_data_list(fulls)
-
-    batch_partial.x_id = sum([data.x_id for data in partials], [])
-    batch_full.x_id = sum([data.x_id for data in fulls], [])
-    
-    return batch_partial, batch_full
-
-def get_constraint_training_pairs(full_sketch, partial_sketch, id_to_idx, role_map, no_constraint_label=0, structural_labels={0,1,2}):
+def get_constraint_training_pairs(full_sketch, partial_sketch, id_to_idx, role_map, no_constraint_label=0, structural_labels={1,2,3}):
     constraint_pairs = {}
     constraint_set = set()
     structural_pairs = set()
+    # print(full_sketch)
 
     # Add positive (dropped) constraints excluding structural links
+    # print(full_sketch.constraints.items())
+    # print(partial_sketch.constraints.items())
     for cid, constraint in full_sketch.constraints.items():
         if cid in partial_sketch.constraints:
             continue
 
         entities = list(constraint.entities.values())
+        # print(entities)
         c_type = constraint.type
         label = role_map.get(c_type, no_constraint_label)
         if label in structural_labels:
-            # Skip structural links
             continue
-
+        # print(len(entities))
         if len(entities) == 1:
             idx = id_to_idx.get(entities[0].id)
             if idx is not None:
                 constraint_pairs[(idx, idx)] = label
                 constraint_set.add((idx, idx))
+                # print(constraint_set)
         elif len(entities) == 2:
             idx1 = id_to_idx.get(entities[0].id)
             idx2 = id_to_idx.get(entities[1].id)
@@ -48,6 +43,7 @@ def get_constraint_training_pairs(full_sketch, partial_sketch, id_to_idx, role_m
                 pair = tuple(sorted((idx1, idx2)))
                 constraint_pairs[pair] = label
                 constraint_set.add(pair)
+                # print(constraint_set)
         else:
             continue
 
@@ -73,7 +69,7 @@ def get_constraint_training_pairs(full_sketch, partial_sketch, id_to_idx, role_m
     # Sample some negatives, skipping positives and structural pairs
     all_idxs = list(id_to_idx.values())
     negative_pairs = []
-    max_negatives = len(constraint_pairs) * 2
+    max_negatives = len(constraint_pairs) * 5
 
     for i in range(len(all_idxs)):
         for j in range(i, len(all_idxs)):
@@ -96,12 +92,14 @@ def get_constraint_training_pairs(full_sketch, partial_sketch, id_to_idx, role_m
 
     candidates = torch.tensor(all_pairs, dtype=torch.long)
     labels = torch.tensor(labels, dtype=torch.long)
+    # print(all_pairs)
     return candidates, labels
 
 def train(model, train_dataset, val_dataset, role_map, optimizer, device, epochs=10):
-    train_loader = DataLoader(train_dataset, batch_size=1, shuffle=True, collate_fn=collate_fn)
-    val_loader = DataLoader(val_dataset, batch_size=1, shuffle=False, collate_fn=collate_fn)
-
+    global epoch_no
+    train_loader = DataLoader(train_dataset, batch_size=1, shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=1, shuffle=False)
+    counter = 0
     best_val_loss = float("inf")
     num_edge_classes = len(role_map)
     
@@ -125,7 +123,11 @@ def train(model, train_dataset, val_dataset, role_map, optimizer, device, epochs
 
             x_id = partial_data.x_id[0] if isinstance(partial_data.x_id[0], list) else partial_data.x_id
             id_to_idx = {nid: idx for idx, nid in enumerate(x_id)}
-
+            
+            # print(partial_data.sketch[0].id)
+            # print(partial_data.sketch)
+            # visualize_graph(partial_data)
+            # visualize_graph(full_data)
             candidates, labels = get_constraint_training_pairs(full_data.sketch[0], partial_data.sketch[0], id_to_idx, role_map)
             candidates = candidates.to(device)
             labels = labels.to(device)
@@ -143,7 +145,8 @@ def train(model, train_dataset, val_dataset, role_map, optimizer, device, epochs
             if loss.item() > 20:
                 # visualize_graph(partial_data)
                 # print(f"High loss detected: {loss.item()}. Visualizing graph.")
-                print(f"Skipping sketch due to high loss: {sketch.id}")
+                with open("AutoConstrain/high_loss_sketches.txt", "a") as f:
+                    f.write(f"High loss sketch: {sketch.id}\n")
                 continue
 
             loss.backward()
@@ -157,6 +160,7 @@ def train(model, train_dataset, val_dataset, role_map, optimizer, device, epochs
         avg_train_loss = total_train_loss / len(train_loader)
         accuracy = total_correct / total_labels if total_labels > 0 else 0
         print(f"Epoch {epoch + 1}: Train Loss = {avg_train_loss:.4f}, Accuracy = {accuracy:.4f}")
+        
 
         # Validation
         model.eval()
@@ -172,7 +176,6 @@ def train(model, train_dataset, val_dataset, role_map, optimizer, device, epochs
 
                 x_id = partial_data.x_id[0] if isinstance(partial_data.x_id[0], list) else partial_data.x_id
                 id_to_idx = {nid: idx for idx, nid in enumerate(x_id)}
-
                 candidates, labels = get_constraint_training_pairs(full_data.sketch[0], partial_data.sketch[0], id_to_idx, role_map)
                 candidates = candidates.to(device)
                 labels = labels.to(device)
@@ -196,14 +199,17 @@ def train(model, train_dataset, val_dataset, role_map, optimizer, device, epochs
         avg_val_loss = total_val_loss / total_good_batches if total_good_batches > 0 else float("inf")
         print(f"Epoch {epoch + 1}: Val Loss = {avg_val_loss:.4f}")
         with open("AutoConstrain/loss.txt", "a") as f:
-            f.write(f"Epoch {epoch + 1}: Train Loss = {avg_train_loss:.4f}, Val Loss = {avg_val_loss:.4f}\n")
-
+            f.write(f"Epoch {epoch + 1}: Train Loss = {avg_train_loss:.4f}, Accuracy = {accuracy:.4f}, Val Loss = {avg_val_loss:.4f}.\n")
+        epoch_no += 1
         # Save best model
-        if avg_val_loss < best_val_loss:
+        if avg_val_loss <= best_val_loss:
             best_val_loss = avg_val_loss
             checkpoint_path = os.path.join(CHECKPOINT_DIR, f"best_model_epoch{epoch+1}.pt")
             torch.save(model.state_dict(), checkpoint_path)
-
-        # Save current checkpoint
-        torch.save(model.state_dict(), checkpoint_path)
+            counter = 0
+        else:
+            counter += 1
+            if counter >= 10:
+                print("No improvement in validation loss for 10 epochs, stopping training.")
+                break
 

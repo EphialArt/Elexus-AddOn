@@ -7,8 +7,8 @@ import torch
 import torch.nn.functional as F
 from sketch import Constraint
 
-MODEL_PATH = "AutoConstrain/ML/checkpoints/best_model_epoch1.pt"
-SKETCH_PATH = "AutoConstrain/Dataset/test/20232_e5b060d9_0002.json"
+MODEL_PATH = "AutoConstrain/ML/checkpoints/best_model_epoch18.pt"
+SKETCH_PATH = "AutoConstrain/Dataset/test/146317_5c5baff8_0000.json"
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def predict_constraints(partial_sketch, model, x_id, idx_to_role, device, conf_threshold=0.8):
@@ -25,7 +25,6 @@ def predict_constraints(partial_sketch, model, x_id, idx_to_role, device, conf_t
 
     predicted_sketch = copy.deepcopy(partial_sketch)
     counter = 0
-
     for i in range(len(candidates)):
         conf = confidences[i].item()
         if conf < conf_threshold:
@@ -33,7 +32,7 @@ def predict_constraints(partial_sketch, model, x_id, idx_to_role, device, conf_t
 
         class_id = pred_classes[i].item()
         c_type = idx_to_role.get(class_id, "unknown")
-        if c_type in {"start_point", "end_point", "center_point"}:
+        if c_type in {"start_point", "end_point", "center_point", "none"}:
             continue
 
         n1_idx, n2_idx = candidates[i].tolist()
@@ -58,17 +57,20 @@ def predict_constraints(partial_sketch, model, x_id, idx_to_role, device, conf_t
             constraint_type=c_type,
             entities=entities
         )
+        print(c_type)
         predicted_sketch.constraints[constraint_id] = constraint
 
-    return predicted_sketch
+    return predicted_sketch, counter
 
 idx_to_role = {v: k for k, v in role_map.items()}
 
-sketch = parse_sketches_from_file(SKETCH_PATH)[0]
-partial_sketch, dropped_constraints = mask_constraints(sketch, drop_rate=0.3)
+sketch = parse_sketches_from_file(SKETCH_PATH)[1]
+partial_sketch, dropped_constraints = mask_constraints(sketch, drop_rate=1)
 
 data_full = build_pyg_graph(sketch)
+data_partial = build_pyg_graph(partial_sketch)
 data_full = data_full.to(DEVICE)
+data_partial = data_partial.to(DEVICE)
 
 in_channels = data_full.x.size(1)
 num_edge_classes = len(role_map)
@@ -77,7 +79,7 @@ model.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE))
 model.to(DEVICE)
 model.eval()
 
-predicted_sketch = predict_constraints(
+predicted_sketch, num_predicted = predict_constraints(
     partial_sketch,
     model,
     x_id=list(partial_sketch.points.keys()) + list(partial_sketch.curves.keys()),
@@ -87,6 +89,8 @@ predicted_sketch = predict_constraints(
 )
 
 data_predicted = build_pyg_graph(predicted_sketch)
+print(num_predicted)
 
+visualize_graph(data_partial)
 visualize_graph(data_predicted) 
 visualize_graph(data_full) 

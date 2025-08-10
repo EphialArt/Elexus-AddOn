@@ -17,3 +17,112 @@ Epoch 1: Train Loss = 0.0088, Val Loss = 0.0000
 Epoch 2: Train Loss = 0.0000, Val Loss = 0.0000
 Epoch 1: Train Loss = 0.0091, Val Loss = 0.0000
 Epoch 2: Train Loss = 0.0000, Val Loss = 0.0000
+Epoch 1: Train Loss = 0.0095, Val Loss = 0.0000
+Epoch 1: Train Loss = 0.0100, Val Loss = 0.0000
+Epoch 2: Train Loss = 0.0000, Val Loss = 0.0000
+Epoch 3: Train Loss = 0.0000, Val Loss = 0.0000
+Epoch 4: Train Loss = 0.0000, Val Loss = 0.0000
+Epoch 1: Train Loss = 0.0091, Val Loss = 0.0000
+Epoch 1: Train Loss = 0.9781, Val Loss = 1.1967
+Epoch 1: Train Loss = 1.0081, Val Loss = 1.2381
+Epoch 2: Train Loss = 0.8090, Val Loss = 1.1249
+Epoch 3: Train Loss = 0.7231, Val Loss = 1.0236
+Epoch 4: Train Loss = 0.6724, Val Loss = 0.9926
+Epoch 5: Train Loss = 0.6427, Val Loss = 0.9306
+Epoch 6: Train Loss = 0.6214, Val Loss = 1.0045
+Epoch 7: Train Loss = 0.5965, Val Loss = 0.9126
+Epoch 8: Train Loss = 0.5757, Val Loss = 0.9664
+Epoch 9: Train Loss = 0.5596, Val Loss = 0.8817
+Epoch 10: Train Loss = 0.5432, Val Loss = 0.8728
+Epoch 1: Train Loss = 1.1814, Accuracy = 0.6481, Val Loss = 1.1405.
+Epoch 2: Train Loss = 0.9777, Accuracy = 0.6789, Val Loss = 1.0274.
+Epoch 3: Train Loss = 0.9002, Accuracy = 0.6896, Val Loss = 1.0118.
+Epoch 4: Train Loss = 0.8525, Accuracy = 0.6994, Val Loss = 0.9206.
+Epoch 5: Train Loss = 0.8158, Accuracy = 0.7090, Val Loss = 0.8781.
+Epoch 6: Train Loss = 0.7917, Accuracy = 0.7167, Val Loss = 0.8883.
+Epoch 7: Train Loss = 0.7781, Accuracy = 0.7271, Val Loss = 0.8583.
+Epoch 8: Train Loss = 0.7567, Accuracy = 0.7357, Val Loss = 0.8480.
+Epoch 9: Train Loss = 0.7332, Accuracy = 0.7419, Val Loss = 0.8218.
+Epoch 10: Train Loss = 0.7194, Accuracy = 0.7485, Val Loss = 0.8105.
+Epoch 1: Train Loss = 1.1711, Accuracy = 0.6386, Val Loss = 1.1207.
+Epoch 2: Train Loss = 0.9747, Accuracy = 0.6776, Val Loss = 0.9829.
+Epoch 3: Train Loss = 0.8869, Accuracy = 0.6945, Val Loss = 0.9279.
+Epoch 4: Train Loss = 0.8405, Accuracy = 0.7020, Val Loss = 0.9007.
+Epoch 5: Train Loss = 0.8090, Accuracy = 0.7081, Val Loss = 0.8640.
+Epoch 6: Train Loss = 0.7880, Accuracy = 0.7126, Val Loss = 0.8663.
+Epoch 7: Train Loss = 0.7664, Accuracy = 0.7179, Val Loss = 0.8250.
+Epoch 8: Train Loss = 0.7525, Accuracy = 0.7264, Val Loss = 0.8412.
+Epoch 9: Train Loss = 0.7384, Accuracy = 0.7324, Val Loss = 0.8351.
+Epoch 10: Train Loss = 0.7275, Accuracy = 0.7391, Val Loss = 0.8111.
+Epoch 11: Train Loss = 0.7215, Accuracy = 0.7440, Val Loss = 0.7865.
+Epoch 12: Train Loss = 0.7080, Accuracy = 0.7480, Val Loss = 0.7905.
+Epoch 13: Train Loss = 0.6955, Accuracy = 0.7500, Val Loss = 0.7741.
+Epoch 14: Train Loss = 0.6922, Accuracy = 0.7522, Val Loss = 0.7714.
+Epoch 15: Train Loss = 0.6818, Accuracy = 0.7557, Val Loss = 0.7716.
+Epoch 16: Train Loss = 0.6817, Accuracy = 0.7575, Val Loss = 0.7612.
+Epoch 17: Train Loss = 0.6734, Accuracy = 0.7608, Val Loss = 0.7934.
+Epoch 18: Train Loss = 0.6681, Accuracy = 0.7630, Val Loss = 0.7938.
+Epoch 19: Train Loss = 0.6661, Accuracy = 0.7637, Val Loss = 0.7153.
+Epoch 20: Train Loss = 0.6586, Accuracy = 0.7630, Val Loss = 0.7363.
+Epoch 21: Train Loss = 0.6528, Accuracy = 0.7663, Val Loss = 0.7366.
+Epoch 22: Train Loss = 0.6481, Accuracy = 0.7681, Val Loss = 0.7301.
+Epoch 23: Train Loss = 0.6441, Accuracy = 0.7683, Val Loss = 0.7383.
+Epoch 24: Train Loss = 0.6520, Accuracy = 0.7725, Val Loss = 0.8035.
+Epoch 25: Train Loss = 0.6625, Accuracy = 0.7735, Val Loss = 0.7295.
+Epoch 26: Train Loss = 0.6442, Accuracy = 0.7751, Val Loss = 0.7270.
+Epoch 27: Train Loss = 0.6434, Accuracy = 0.7744, Val Loss = 0.7295.
+Epoch 28: Train Loss = 0.6362, Accuracy = 0.7755, Val Loss = 0.7046.
+Epoch 29: Train Loss = 0.6298, Accuracy = 0.7769, Val Loss = 0.7304.
+Epoch 30: Train Loss = 0.6298, Accuracy = 0.7779, Val Loss = 0.6940.
+Epoch 31: Train Loss = 0.6229, Accuracy = 0.7803, Val Loss = 0.7285.
+Epoch 32: Train Loss = 0.6256, Accuracy = 0.7801, Val Loss = 0.6952.
+Epoch 33: Train Loss = 0.6273, Accuracy = 0.7800, Val Loss = 0.6905.
+Epoch 34: Train Loss = 0.6202, Accuracy = 0.7804, Val Loss = 0.6888.
+Epoch 35: Train Loss = 0.6202, Accuracy = 0.7811, Val Loss = 0.7281.
+Epoch 36: Train Loss = 0.6185, Accuracy = 0.7824, Val Loss = 0.7620.
+Epoch 37: Train Loss = 0.6204, Accuracy = 0.7838, Val Loss = 0.6863.
+Epoch 38: Train Loss = 0.6147, Accuracy = 0.7828, Val Loss = 0.7028.
+Epoch 39: Train Loss = 0.6125, Accuracy = 0.7822, Val Loss = 0.7111.
+Epoch 40: Train Loss = 0.6224, Accuracy = 0.7835, Val Loss = 0.7051.
+Epoch 41: Train Loss = 0.6144, Accuracy = 0.7833, Val Loss = 0.7079.
+Epoch 42: Train Loss = 0.6161, Accuracy = 0.7836, Val Loss = 0.7031.
+Epoch 43: Train Loss = 0.6156, Accuracy = 0.7835, Val Loss = 0.7221.
+Epoch 44: Train Loss = 0.6113, Accuracy = 0.7821, Val Loss = 0.7271.
+Epoch 45: Train Loss = 0.6115, Accuracy = 0.7863, Val Loss = 0.7102.
+Epoch 46: Train Loss = 0.6097, Accuracy = 0.7865, Val Loss = 0.6797.
+Epoch 47: Train Loss = 0.6081, Accuracy = 0.7855, Val Loss = 0.7195.
+Epoch 48: Train Loss = 0.6123, Accuracy = 0.7854, Val Loss = 0.7185.
+Epoch 49: Train Loss = 0.6098, Accuracy = 0.7849, Val Loss = 0.6839.
+Epoch 50: Train Loss = 0.6148, Accuracy = 0.7858, Val Loss = 0.7463.
+Epoch 51: Train Loss = 0.6114, Accuracy = 0.7858, Val Loss = 0.6786.
+Epoch 52: Train Loss = 0.6152, Accuracy = 0.7845, Val Loss = 0.6859.
+Epoch 53: Train Loss = 0.6133, Accuracy = 0.7846, Val Loss = 0.6918.
+Epoch 54: Train Loss = 0.6111, Accuracy = 0.7857, Val Loss = 0.7546.
+Epoch 55: Train Loss = 0.6159, Accuracy = 0.7829, Val Loss = 0.7206.
+Epoch 56: Train Loss = 0.6110, Accuracy = 0.7847, Val Loss = 0.7415.
+Epoch 57: Train Loss = 0.6122, Accuracy = 0.7856, Val Loss = 0.7392.
+Epoch 58: Train Loss = 0.6141, Accuracy = 0.7858, Val Loss = 0.7092.
+Epoch 59: Train Loss = 0.6167, Accuracy = 0.7845, Val Loss = 0.7075.
+Epoch 60: Train Loss = 0.6105, Accuracy = 0.7846, Val Loss = 0.6958.
+Epoch 61: Train Loss = 0.6160, Accuracy = 0.7840, Val Loss = 0.7825.
+Epoch 1: Train Loss = 1.1084, Accuracy = 0.7886, Val Loss = 1.0885.
+Epoch 1: Train Loss = 1.0754, Accuracy = 0.7820, Val Loss = 1.1812.
+Epoch 2: Train Loss = 0.9093, Accuracy = 0.7432, Val Loss = 0.9436.
+Epoch 3: Train Loss = 0.8516, Accuracy = 0.7396, Val Loss = 0.8890.
+Epoch 4: Train Loss = 0.8124, Accuracy = 0.7441, Val Loss = 0.8744.
+Epoch 5: Train Loss = 0.7849, Accuracy = 0.7448, Val Loss = 0.8855.
+Epoch 6: Train Loss = 0.7671, Accuracy = 0.7494, Val Loss = 0.8260.
+Epoch 7: Train Loss = 0.7444, Accuracy = 0.7505, Val Loss = 0.7959.
+Epoch 8: Train Loss = 0.7249, Accuracy = 0.7544, Val Loss = 0.8418.
+Epoch 9: Train Loss = 0.7111, Accuracy = 0.7572, Val Loss = 0.7947.
+Epoch 10: Train Loss = 0.7028, Accuracy = 0.7588, Val Loss = 0.8192.
+Epoch 11: Train Loss = 0.6969, Accuracy = 0.7616, Val Loss = 0.7574.
+Epoch 12: Train Loss = 0.6875, Accuracy = 0.7662, Val Loss = 0.7571.
+Epoch 13: Train Loss = 0.6849, Accuracy = 0.7639, Val Loss = 0.8002.
+Epoch 14: Train Loss = 0.6733, Accuracy = 0.7658, Val Loss = 0.7289.
+Epoch 15: Train Loss = 0.6703, Accuracy = 0.7684, Val Loss = 0.7622.
+Epoch 16: Train Loss = 0.6671, Accuracy = 0.7672, Val Loss = 0.7274.
+Epoch 17: Train Loss = 0.6568, Accuracy = 0.7707, Val Loss = 0.7250.
+Epoch 18: Train Loss = 0.6579, Accuracy = 0.7708, Val Loss = 0.7066.
+Epoch 19: Train Loss = 0.6517, Accuracy = 0.7737, Val Loss = 0.7289.
+Epoch 20: Train Loss = 0.6503, Accuracy = 0.7737, Val Loss = 0.7318.
