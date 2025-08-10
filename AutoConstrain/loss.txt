@@ -126,3 +126,13 @@ Epoch 17: Train Loss = 0.6568, Accuracy = 0.7707, Val Loss = 0.7250.
 Epoch 18: Train Loss = 0.6579, Accuracy = 0.7708, Val Loss = 0.7066.
 Epoch 19: Train Loss = 0.6517, Accuracy = 0.7737, Val Loss = 0.7289.
 Epoch 20: Train Loss = 0.6503, Accuracy = 0.7737, Val Loss = 0.7318.
+Epoch 1: Train Loss = 1.0430, Accuracy = 0.8168, Val Loss = 1.0259.
+Epoch 2: Train Loss = 0.9308, Accuracy = 0.8169, Val Loss = 0.9838.
+Epoch 3: Train Loss = 0.8237, Accuracy = 0.8189, Val Loss = 0.8289.
+Epoch 4: Train Loss = 0.7038, Accuracy = 0.7716, Val Loss = 0.6643.
+Epoch 5: Train Loss = 0.4786, Accuracy = 0.8419, Val Loss = 0.4635.
+Epoch 6: Train Loss = 0.3684, Accuracy = 0.8637, Val Loss = 0.3312.
+Epoch 7: Train Loss = 0.3147, Accuracy = 0.8790, Val Loss = 0.3433.
+Epoch 8: Train Loss = 0.3029, Accuracy = 0.8909, Val Loss = 0.3733.
+Epoch 9: Train Loss = 0.2807, Accuracy = 0.8955, Val Loss = 0.2927.
+Epoch 10: Train Loss = 0.2794, Accuracy = 0.9001, Val Loss = 0.2981.

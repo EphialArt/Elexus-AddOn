@@ -23,11 +23,10 @@ class Constraint:
         self.entities = entities  
 
 class Sketch:
-    def __init__(self, id, name, sketch_type, fully_constrained):
+    def __init__(self, id, name, sketch_type):
         self.id = id
         self.name = name
         self.type = sketch_type
         self.points = {}      
         self.curves = {}      
-        self.constraints = {}  
-        self.fully_constrained = fully_constrained
+        self.constraints = {} 

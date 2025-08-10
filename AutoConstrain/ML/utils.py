@@ -7,7 +7,7 @@ import torch
 import torch.nn.functional as F
 from sketch import Constraint
 
-MODEL_PATH = "AutoConstrain/ML/checkpoints/best_model_epoch18.pt"
+MODEL_PATH = "AutoConstrain/ML/checkpoints/best_model_epoch9.pt"
 SKETCH_PATH = "AutoConstrain/Dataset/test/146317_5c5baff8_0000.json"
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -74,7 +74,7 @@ data_partial = data_partial.to(DEVICE)
 
 in_channels = data_full.x.size(1)
 num_edge_classes = len(role_map)
-model = ConstraintPredictorGNN(in_channels, hidden_channels=64, num_edge_classes=num_edge_classes)
+model = ConstraintPredictorGNN(in_channels, hidden_channels=64, num_edge_classes=num_edge_classes, edge_attr_dim=4)
 model.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE))
 model.to(DEVICE)
 model.eval()
