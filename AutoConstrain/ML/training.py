@@ -105,7 +105,7 @@ def train(model, train_dataset, val_dataset, role_map, optimizer, device, epochs
     
     # Optional: class weights to address imbalance
     class_weights = torch.ones(num_edge_classes, device=device)
-    class_weights[0] = 0.2  # Lower weight for "no constraint" class (label 0)
+    class_weights[0] = 0.5  # Lower weight for "no constraint" class (label 0)
 
     for epoch in range(epochs):
         model.train()

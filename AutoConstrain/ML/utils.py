@@ -7,8 +7,8 @@ import torch
 import torch.nn.functional as F
 from sketch import Constraint
 
-MODEL_PATH = "AutoConstrain/ML/checkpoints/best_model_epoch9.pt"
-SKETCH_PATH = "AutoConstrain/Dataset/test/146317_5c5baff8_0000.json"
+MODEL_PATH = "AutoConstrain/ML/checkpoints/best_model_epoch17.pt"
+SKETCH_PATH = "AutoConstrain/Dataset/test/20203_7e31e92a_0000.json"
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def predict_constraints(partial_sketch, model, x_id, idx_to_role, device, conf_threshold=0.8):
@@ -64,8 +64,8 @@ def predict_constraints(partial_sketch, model, x_id, idx_to_role, device, conf_t
 
 idx_to_role = {v: k for k, v in role_map.items()}
 
-sketch = parse_sketches_from_file(SKETCH_PATH)[1]
-partial_sketch, dropped_constraints = mask_constraints(sketch, drop_rate=1)
+sketch = parse_sketches_from_file(SKETCH_PATH)[0]
+partial_sketch, dropped_constraints = mask_constraints(sketch, drop_rate=1.0)
 
 data_full = build_pyg_graph(sketch)
 data_partial = build_pyg_graph(partial_sketch)
@@ -85,12 +85,13 @@ predicted_sketch, num_predicted = predict_constraints(
     x_id=list(partial_sketch.points.keys()) + list(partial_sketch.curves.keys()),
     idx_to_role=idx_to_role,
     device=DEVICE,
-    conf_threshold=0.8
+    conf_threshold=0.9
 )
 
 data_predicted = build_pyg_graph(predicted_sketch)
 print(num_predicted)
 
 visualize_graph(data_partial)
-visualize_graph(data_predicted) 
-visualize_graph(data_full) 
+visualize_graph(data_full)
+visualize_graph(data_predicted)
+
